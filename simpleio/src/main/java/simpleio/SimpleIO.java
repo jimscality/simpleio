@@ -14,7 +14,12 @@ public class SimpleIO {
 	private static final Option threadCountOption = Option.builder("t").hasArgs().desc("number of concurrent I/O threads").build();
 	private static final Option benchmarkNameOption = Option.builder("b").required().hasArg().desc("benchmark name").build();
 	
-	private static final String helpMsg = "Usage: -h -d <target directory> -s <file size> -t <number of threads> -b <benchmark name>";
+	private static final String helpMsg = "Usage:\n"
+			+ "-h -- help\n"
+			+ "-d <target directory> -- benchmark directory. Must be empty.\n"
+			+ "-s <file size (MB)> -- file size for benchmarking\n"
+			+ "-b <benchmark name> -- benchmark name"
+			+ "[-t <number of threads>] -- number of threads used in the benchmark. default is 1.";
 	
 	private static Options initOptions() {
 		Options options = new Options();
@@ -42,7 +47,7 @@ public class SimpleIO {
 			CommandLine cmd = parser.parse( options, args);
 		
 			if (cmd.hasOption('h')) {
-				System.out.println(helpMsg);
+				System.err.println(helpMsg);
 				System.exit(1);
 			}
 			targetDir = cmd.getOptionValue('d');

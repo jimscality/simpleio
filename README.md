@@ -10,5 +10,10 @@ This command generates simpleio.tgz in the "target" directory.
 
 Use - Need Java 1.8
 
-simpleio.sh -d <target directory> -s <file size> -t <number of threads> -b <benchmark name>
+To run an I/O benchmark, run the following command
 
+simpleio.sh [-h] -d <target directory> -s <file size> -b <benchmark name> [-t <number of threads>]
+
+To generate a file with random data, run the following command
+
+randomfile.sh [-h] -f <file name> -s <file size> [-l]
