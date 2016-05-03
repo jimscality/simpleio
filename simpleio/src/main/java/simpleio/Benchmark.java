@@ -38,7 +38,7 @@ public class Benchmark {
 						aggResult = result;
 					}
 					else {
-						aggResult.aggragate(result);
+						aggResult.aggregate(result);
 					}
 					count++;
 				}
@@ -52,7 +52,7 @@ public class Benchmark {
 			System.out.println("Average Result:");
 			JobResult.display(System.out, aggResult.getJob().getType(), Status.OK, aggResult.getByteCount(), aggResult.getExecTime(), true, count);
 			System.out.println();
-			System.out.println("Aggragated Result:");
+			System.out.println("Aggregated Result:");
 			JobResult.display(System.out, aggResult.getJob().getType(), Status.OK, aggResult.getByteCount(), elapseTime);
 			System.out.println();
 		}

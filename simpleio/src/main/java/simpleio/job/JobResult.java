@@ -64,7 +64,7 @@ public class JobResult {
 		}
 	}
 		
-	public JobResult aggragate(JobResult result) {
+	public JobResult aggregate(JobResult result) {
 		if (this.job.type == result.job.type) {
 			this.execTime += result.execTime;
 			if (this.maxExecTime < result.execTime) {
