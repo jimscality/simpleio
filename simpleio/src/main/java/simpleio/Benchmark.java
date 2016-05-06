@@ -1,7 +1,9 @@
 package simpleio;
 
 import java.io.File;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.ExecutorService;
@@ -105,9 +107,13 @@ public class Benchmark {
 			allThreadOps.add(createJob(type, testFilePaths[i], fileSize));
 		}
 		try {
+			Calendar calInst = Calendar.getInstance();
+			SimpleDateFormat df = new SimpleDateFormat("MM/dd/yyyy HH:mm:ss.S");
+			System.out.println("Benchmark " + type + " started at " +  df.format(calInst.getTime()));
 			List<Future<JobResult>> futures;
 			long start = System.nanoTime();
 			futures = execSvr.invokeAll(allThreadOps);
+			System.out.println("Benchmark " + type + " completed at " +  df.format(calInst.getTime()));
 			displayResult(futures, System.nanoTime() - start);
 		} catch (InterruptedException e) {
 			// TODO Auto-generated catch block
