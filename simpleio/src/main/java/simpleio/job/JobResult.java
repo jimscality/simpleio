@@ -4,6 +4,12 @@ import java.io.PrintStream;
 
 import simpleio.job.Job.Status;
 
+/**
+ * Result of an IO job
+ * 
+ * @author jimyang
+ *
+ */
 public class JobResult {
 	private final Job job;
 	private long execTime;
@@ -59,8 +65,8 @@ public class JobResult {
 			else {
 				out.println("\ttotal bytes (MB): " + mb);
 			}
-			out.println("\ttime for complete (ms); " + elapseTime*0.000001);
-			out.println("\tthroughput (MB/s); " + mb/(elapseTime*0.000000001));
+			out.println("\ttime for complete (ms): " + elapseTime*0.000001);
+			out.println("\tthroughput (MB/s): " + mb/(elapseTime*0.000000001));
 		}
 	}
 		

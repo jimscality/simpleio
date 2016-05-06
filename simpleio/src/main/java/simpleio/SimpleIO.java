@@ -7,6 +7,12 @@ import org.apache.commons.cli.Option;
 import org.apache.commons.cli.Options;
 import org.apache.commons.cli.ParseException;
 
+/**
+ * The main function of simpleio.
+ * 
+ * @author jimyang
+ *
+ */
 public class SimpleIO {
 	private static final Option helpOption = Option.builder("h").desc("help").build();
 	private static final Option targetDirOption = Option.builder("d").required().hasArg().desc("benchmark target directory").build();

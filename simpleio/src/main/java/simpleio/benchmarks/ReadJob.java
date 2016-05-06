@@ -8,6 +8,12 @@ import randomfile.FileOps;
 import simpleio.job.Job;
 import simpleio.job.JobType;
 
+/**
+ * Read an existing file
+ * 
+ * @author jimyang
+ *
+ */
 public class ReadJob extends Job {
 
 	protected ReadJob(JobType type, String path, BlockData blockData) {

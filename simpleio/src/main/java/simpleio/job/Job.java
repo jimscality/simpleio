@@ -5,6 +5,12 @@ import java.util.concurrent.Callable;
 
 import randomfile.BlockData;
 
+/**
+ * Base class of an IO job
+ * 
+ * @author jimyang
+ *
+ */
 public abstract class Job implements Callable<JobResult> {
 	public enum Status {
 		NEW,

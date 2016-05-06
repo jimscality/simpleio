@@ -6,6 +6,12 @@ import java.io.IOException;
 import randomfile.BlockData;
 import simpleio.job.JobType;
 
+/**
+ * Second/subsequent write a file
+ * 
+ * @author jimyang
+ *
+ */
 public class RewriteJob extends WriteJob {
 	public RewriteJob(String path, long size, BlockData blockData) {
 		super(JobType.REWRITE, path, size, blockData);

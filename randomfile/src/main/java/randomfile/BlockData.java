@@ -1,5 +1,12 @@
 package randomfile;
 
+/**
+ * Base class representing a block of data
+ * 
+ * @author jimyang
+ *
+ */
+
 abstract public class BlockData {
 	private final byte[] buffer;
 	private final boolean bFill;

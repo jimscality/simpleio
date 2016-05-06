@@ -11,7 +11,12 @@ import org.apache.commons.cli.DefaultParser;
 import org.apache.commons.cli.Option;
 import org.apache.commons.cli.Options;
 import org.apache.commons.cli.ParseException;
-
+/**
+ * Main function for generating data files with various kind of data pattern
+ * 
+ * @author jimyang
+ *
+ */
 public class DataFileMain {
 	static final int blockSize = 1024*1024;
 	private void make(String fileName, long size, BlockData bData) throws FileNotFoundException, IOException {

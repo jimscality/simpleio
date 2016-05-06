@@ -4,6 +4,12 @@ import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 
+/**
+ * Utility functions for read and write block data to a file.
+ * 
+ * @author jimyang
+ *
+ */
 public class FileOps {
 	public static long read(String path, BlockData bData) throws IOException {
 		long count = 0;

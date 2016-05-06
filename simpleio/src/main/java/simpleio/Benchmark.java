@@ -18,12 +18,23 @@ import simpleio.job.Job;
 import simpleio.job.JobResult;
 import simpleio.job.JobType;
 import simpleio.job.Job.Status;
-
+/**
+ * Execute the benchmark
+ * 
+ * @author jimyang
+ *
+ */
 public class Benchmark {
 	public static final int blockSize = 1024*1024;
 	private String[] testFilePaths = null;
 	private ExecutorService execSvr;
 	
+	/**
+	 * Display benchmark result
+	 * 
+	 * @param futures
+	 * @param elapseTime
+	 */
 	private static void displayResult(List<Future<JobResult>> futures, long elapseTime) {
 		int count = 0;
 		JobResult aggResult = null;
@@ -58,6 +69,14 @@ public class Benchmark {
 		}
 	}
 
+	/**
+	 * Run all supported benchmark
+	 * 
+	 * @param targetDir
+	 * @param benchmarkName
+	 * @param fileSize
+	 * @param threadCount
+	 */
 	public static void start(String targetDir, String benchmarkName, long fileSize, int threadCount) {
 		Benchmark mark = new Benchmark();
 
@@ -71,6 +90,15 @@ public class Benchmark {
 		mark.cleanup();
 	}
 
+	/**
+	 * Run a single benchmark and display the result. Each thread run the same IO job on different files.
+	 * 
+	 * @param type
+	 * @param targetDir
+	 * @param benchmarkName
+	 * @param fileSize
+	 * @param threadCount
+	 */
 	public void runBenchmark(JobType type, String targetDir, String benchmarkName, long fileSize, int threadCount) {
 		List<Job> allThreadOps = new ArrayList<>();
 		for (int i = 0; i < threadCount; i++) {

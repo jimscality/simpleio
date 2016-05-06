@@ -6,6 +6,12 @@ import java.io.IOException;
 import randomfile.BlockData;
 import simpleio.job.JobType;
 
+/**
+ * First/initial write file
+ * 
+ * @author jimyang
+ *
+ */
 public class FirstWriteJob extends WriteJob {	
 	public FirstWriteJob(String path, long size, BlockData blockData) {
 		super(JobType.FIRST_WRITE, path, size, blockData);

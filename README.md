@@ -2,15 +2,19 @@
 
 Purpose - This is a simple tool for evaluating system I/O performance.
 
-Build - Need Maven build tool
+How To Build
+
+Need Maven build tool
 
 mvn clean install package -f simpleio-pom.xml
 
 This command generates simpleio.tgz in the "target" directory.
 
-Use - Need Java 1.8
+How To Use
 
-To run an I/O benchmark, run the following command
+Need Java 1.8
+
+Run the following command
 
 simpleio.sh [-h] -d <target directory> -s <file size> -b <benchmark name> [-t <number of threads>]
 

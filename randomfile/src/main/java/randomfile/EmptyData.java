@@ -1,5 +1,11 @@
 package randomfile;
 
+/**
+ * Empty data block
+ * 
+ * @author jimyang
+ *
+ */
 public class EmptyData extends BlockData {
 
 	public EmptyData(int size) {
