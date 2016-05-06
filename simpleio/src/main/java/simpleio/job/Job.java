@@ -1,6 +1,7 @@
 package simpleio.job;
 
 import java.io.IOException;
+import java.util.Date;
 import java.util.concurrent.Callable;
 
 import randomfile.BlockData;
@@ -23,13 +24,12 @@ public abstract class Job implements Callable<JobResult> {
 	protected long size;
 	protected final String path;
 	protected final BlockData blockData;
+	protected Date opStart = null;
+	protected Date opEnd = null;
 	private Status status;
 
 	protected Job(JobType type, String path, BlockData blockData) {
-		this.type = type;
-		this.path = path;
-		this.size = 0;
-		this.blockData = blockData;
+		this(type, path, 0, blockData);
 	}
 
 	protected Job(JobType type, String path, long size, BlockData blockData) {
@@ -59,15 +59,18 @@ public abstract class Job implements Callable<JobResult> {
 			delta = measure();
 			this.status = Status.OK;
 		} catch (IOException ioe) {
-			e = ioe;
+			throw ioe;
 		}
 		return new JobResult(this, size, delta, e);
 	}
 
 	private long measure() throws IOException {
+		opStart = new Date();
 		long start = System.nanoTime();
 		operation();
-		return System.nanoTime() - start;
+		long end = System.nanoTime();
+		opEnd = new Date();
+		return end - start;
 	}
 	
 	abstract protected void operation() throws IOException;

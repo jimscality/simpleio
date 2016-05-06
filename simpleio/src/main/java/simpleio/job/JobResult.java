@@ -2,6 +2,7 @@ package simpleio.job;
 
 import java.io.PrintStream;
 
+import simpleio.Utils;
 import simpleio.job.Job.Status;
 
 /**
@@ -48,6 +49,8 @@ public class JobResult {
 	}
 	
 	public void display(PrintStream out) {
+		out.println("job name is " + job.getPath());
+		out.println("start time " + Utils.df.format(job.opStart) + ", end time " + Utils.df.format(job.opEnd));
 		display(out, job.getType(), job.getStatus(), byteCount, getExecTime());
 	}
 	

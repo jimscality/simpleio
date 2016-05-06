@@ -19,6 +19,7 @@ public class SimpleIO {
 	private static final Option fileSizeOption = Option.builder("s").required().hasArg().desc("file sized used during benchmarking").build();
 	private static final Option threadCountOption = Option.builder("t").hasArgs().desc("number of concurrent I/O threads").build();
 	private static final Option benchmarkNameOption = Option.builder("b").required().hasArg().desc("benchmark name").build();
+	private static final Option logPathOption = Option.builder("l").hasArg().desc("log file path").build();
 	
 	private static final String helpMsg = "Usage:\n"
 			+ "-h -- help\n"
@@ -35,6 +36,7 @@ public class SimpleIO {
 		options.addOption(fileSizeOption);
 		options.addOption(threadCountOption);
 		options.addOption(benchmarkNameOption);
+		options.addOption(logPathOption);
 		
 		return options;
 	}
@@ -44,6 +46,7 @@ public class SimpleIO {
 		long fileSize = 0;
 		int threadCount = 0;
 		String benchmarkName = null;
+		String logFilePath = null;
 		
 		Options options = initOptions();
 		
@@ -60,13 +63,14 @@ public class SimpleIO {
 			fileSize = 1024*1024*Long.parseLong(cmd.getOptionValue('s'));
 			threadCount = Integer.parseInt(cmd.getOptionValue('t', "1"));
 			benchmarkName = cmd.getOptionValue('b');
+			logFilePath = cmd.getOptionValue('l');
 		}
 		catch (ParseException exp) {
 			System.out.println(helpMsg);
 			System.exit(-1);
 		}
 		
-		Benchmark.start(targetDir, benchmarkName, fileSize, threadCount);
+		Benchmark.start(targetDir, benchmarkName, fileSize, threadCount, logFilePath);
 	}
 
 }

@@ -1,9 +1,11 @@
 package simpleio;
 
 import java.io.File;
-import java.text.SimpleDateFormat;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.PrintStream;
 import java.util.ArrayList;
-import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.ExecutorService;
@@ -30,6 +32,11 @@ public class Benchmark {
 	public static final int blockSize = 1024*1024;
 	private String[] testFilePaths = null;
 	private ExecutorService execSvr;
+	private PrintStream logFileOut;
+
+	private Benchmark(PrintStream s) {
+		this.logFileOut = s;
+	}
 	
 	/**
 	 * Display benchmark result
@@ -37,15 +44,19 @@ public class Benchmark {
 	 * @param futures
 	 * @param elapseTime
 	 */
-	private static void displayResult(List<Future<JobResult>> futures, long elapseTime) {
+	private static void displayResult(List<Future<JobResult>> futures, long elapseTime, PrintStream logFileOut) {
 		int count = 0;
 		JobResult aggResult = null;
-		//System.out.println("Per Thread Result:");
+		if (logFileOut != null) {
+			logFileOut.println("Per Thread Result:");
+		}
 		for (Future<JobResult> future : futures) {
 			try {
 				JobResult result = future.get();
-				//result.display(System.out);
-				//System.out.println();
+				if (logFileOut != null) {
+					result.display(logFileOut);
+					logFileOut.println();
+				}
 				if (result.getJob().getStatus() == Status.OK) {
 					if (aggResult == null) {
 						aggResult = result;
@@ -79,8 +90,18 @@ public class Benchmark {
 	 * @param fileSize
 	 * @param threadCount
 	 */
-	public static void start(String targetDir, String benchmarkName, long fileSize, int threadCount) {
-		Benchmark mark = new Benchmark();
+	public static void start(String targetDir, String benchmarkName, long fileSize, int threadCount, String logFilePath) {
+		PrintStream logPrintStream = null;
+		if (logFilePath != null) {
+			try {
+				logPrintStream = new PrintStream(new FileOutputStream(logFilePath));
+			} catch (FileNotFoundException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+				return;
+			}
+		}
+		Benchmark mark = new Benchmark(logPrintStream);
 
 		mark.prepare(targetDir, benchmarkName, threadCount);
 		
@@ -107,14 +128,12 @@ public class Benchmark {
 			allThreadOps.add(createJob(type, testFilePaths[i], fileSize));
 		}
 		try {
-			Calendar calInst = Calendar.getInstance();
-			SimpleDateFormat df = new SimpleDateFormat("MM/dd/yyyy HH:mm:ss.S");
-			System.out.println("Benchmark " + type + " started at " +  df.format(calInst.getTime()));
+			System.out.println("Benchmark " + type + " started at " +  Utils.df.format(new Date()));
 			List<Future<JobResult>> futures;
 			long start = System.nanoTime();
 			futures = execSvr.invokeAll(allThreadOps);
-			System.out.println("Benchmark " + type + " completed at " +  df.format(calInst.getTime()));
-			displayResult(futures, System.nanoTime() - start);
+			System.out.println("Benchmark " + type + " completed at " +  Utils.df.format(new Date()));
+			displayResult(futures, System.nanoTime() - start, logFileOut);
 		} catch (InterruptedException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -134,6 +153,10 @@ public class Benchmark {
 	
 	private void cleanup() {
 		execSvr.shutdown();
+		if (logFileOut != null) {
+			logFileOut.close();
+			logFileOut = null;
+		}
 	}
 	
 	private Job createJob(JobType type, String path, long size) {
