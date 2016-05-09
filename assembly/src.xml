@@ -20,6 +20,10 @@
 
   <files>
     <file>
+      <source>README.md</source>
+      <fileMode>0444</fileMode>
+    </file>
+    <file>
       <source>simpleio.sh</source>
       <fileMode>0755</fileMode>
     </file>

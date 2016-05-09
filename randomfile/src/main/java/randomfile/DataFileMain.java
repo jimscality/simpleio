@@ -1,10 +1,7 @@
 package randomfile;
 
-import java.io.FileInputStream;
 import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
 import java.io.IOException;
-import java.util.Date;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -14,6 +11,7 @@ import org.apache.commons.cli.DefaultParser;
 import org.apache.commons.cli.Option;
 import org.apache.commons.cli.Options;
 import org.apache.commons.cli.ParseException;
+
 /**
  * Main function for generating data files with various kind of data pattern
  * 
@@ -22,21 +20,10 @@ import org.apache.commons.cli.ParseException;
  */
 public class DataFileMain {
 	static final int blockSize = 1024*1024;
-	private void make(String fileName, long size, BlockData bData) throws FileNotFoundException, IOException {
-		long count = 0;
-
-		try (FileOutputStream fs = new FileOutputStream(fileName)) {
-			while (count < size) {
-				byte[] b = bData.get();
-				fs.write(b, 0, (count + b.length) < size ? b.length : (int)(size - count));
-				count += b.length;
-			}
-		}
-	}
 	
 	private void measureAndMake(String fileName, long fileSize, BlockData  bData) throws FileNotFoundException, IOException {
 		long start = System.nanoTime();
-		make(fileName, fileSize, bData);
+		FileOps.write(fileName, fileSize, bData);
 		long end = System.nanoTime();
 		long delta = end - start;
 		System.out.println("Created " + fileName + " of size " + (double)fileSize/1024/1024 + " MB in " + delta/1000000 + "ms.");
@@ -44,21 +31,9 @@ public class DataFileMain {
 		System.out.println("DataBlock class is " + bData.getClass().getName());
 	}
 
-	private long read(String fileName, BlockData bData) throws FileNotFoundException, IOException {
-		long count = 0;
-		try (FileInputStream fs = new FileInputStream(fileName)) {
-			byte[] b = bData.get();
-			int readBytes;
-			while (-1 != (readBytes = fs.read(b))) {
-				count += readBytes;
-			}
-		}
-		return count;
-	}
-
 	private void measureAndRead(String fileName, BlockData  bData) throws FileNotFoundException, IOException {
 		long start = System.nanoTime();
-		long fileSize = read(fileName, bData);
+		long fileSize = FileOps.read(fileName, bData);
 		long end = System.nanoTime();
 		long delta = end - start;
 		System.out.println("Read " + fileName + " of size " + (double)fileSize/1024/1024 + " MB in " + delta/1000000 + "ms.");
