@@ -18,6 +18,6 @@ Run the following command
 
 simpleio.sh [-h] -d <target directory> -s <file size> -b <benchmark name> [-t <number of threads>]
 
-To generate a file with random data, run the following command
+To read or create a file with random data, run the following command
 
-randomfile.sh [-h] -f <file name> -s <file size> [-l]
+randomfile.sh [-h] -p [read|write] -f <file name> [-s <file size> [-l]]
